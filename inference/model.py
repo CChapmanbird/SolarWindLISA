@@ -2,20 +2,9 @@ import numpy as np
 from numpy.lib.recfunctions import merge_arrays
 from nessai.model import Model
 
-# def fast_mult(vectors1, vectors2, matrices):
-#     if vectors1.ndim == 3:
-#         return (np.matmul(np.swapaxes(vectors1.T, 0, 1), matrices) * np.swapaxes(vectors2.T, 0, 1)).sum(axis=-1)
-#     else:
-#         return (np.matmul(vectors1.T.conj(), matrices) * vectors2.T).sum(axis=-1)
-
 def fast_mult(vectors1, vectors2, matrices):
-    # return (np.matmul(np.swapaxes(vectors1.T, 0, 1), matrices) * np.swapaxes(vectors2.T, 0, 1)).sum(axis=-1)
-
     part = (vectors1[:,:,None,:].conj() * matrices).sum(axis=-1)
-    # part2 = np.matmul(part[:,:,None,:], vectors2[:,:,:,None])
-    # return part2[:,:,0,0]
-
-    part2 = (part * vectors2).sum(axis=-1)
+    part2 = (part * vectors2).real.sum(axis=-1)
     return part2
 
 def matrix_inner(h1, h2, df, invC):
@@ -25,7 +14,7 @@ def matrix_inner(h1, h2, df, invC):
     if h2.ndim == 2:
         h2 = h2[None, ...]
     # invC has shape (N_f, 3, 3)
-    temp = 4 * df * fast_mult(h1, h2, invC[None, ...]).real.sum(axis=-1)  # fast_mult spits out something of shape (N_t, N_f)
+    temp = 4 * df * fast_mult(h1, h2, invC[None, ...]).sum(axis=-1)  # fast_mult spits out something of shape (N_t, N_f)
     return temp
 
 class XYZTDILikelihood(Model):
