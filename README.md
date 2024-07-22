@@ -6,8 +6,13 @@ Ensure that you have `conda` installed. Then run the script
 ```console
 ./install.sh
 ```
-which will create a `conda` environment and place all necessary packages inside.
-Then, simply activate the environment before running python scripts:
+which will create a `conda` environment and place all necessary packages inside. If you cannot execute the script (e.g. `Permission denied`) then make it executable via 
+```console
+sudo chmod +x install.sh
+```
+and run it.
+
+Once the script has finished running, simply activate the environment before running python scripts:
 ```console
 conda activate solar_wind_env
 ```
