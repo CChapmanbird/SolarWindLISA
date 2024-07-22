@@ -23,6 +23,7 @@ fmin = 1e-3
 fmax = 1e-1
 num_freqs = int((fmax - fmin) / df) + 1
 
+# frequency bins of the data
 freqs = np.arange(num_freqs) * df + fmin
  
 ### WAVEFORM WRAPPER
